@@ -1,6 +1,5 @@
-// *JavaScript code
-
 let data;
+let lastLocation;
 
 const inputBox = document.getElementById("inputBox");
 const locationBtn = document.getElementById("cur_loc");
@@ -13,15 +12,19 @@ const temperature = document.getElementById("temperature");
 const logoImage = document.getElementById("logoImage");
 const weatherStatus = document.getElementById("weatherStatus");
 
-const getData = async (event) => {
-  event.preventDefault();
-  if (!inputBox.value) {
-    // If the input is empty, get current location
-    getCurrentLocation();
-    return;
-  }
-  let city = inputBox.value;
-  // Fetch details
+//* Function to save last searched location to local storage
+const saveLastLocation = () => {
+  localStorage.setItem('lastLocation', JSON.stringify(lastLocation));
+};
+
+//* Function to retrieve last searched location from local storage
+const getLastLocation = () => {
+  return JSON.parse(localStorage.getItem('lastLocation'));
+};
+
+//* Function to get weather data by city name
+const getWeatherByCityName = async (city) => {
+  //* Fetch details
   const fetchData = await fetch(
     `https://api.weatherapi.com/v1/current.json?key=2330b4cff9df477bb0a105928231102&q=${city}`
   );
@@ -30,7 +33,7 @@ const getData = async (event) => {
   data = orgData;
   console.log(data);
 
-  // Display the details
+  // *Display the details
   countryName.innerHTML = data.location.country;
   stateName.innerHTML = data.location.region;
   cityName.innerHTML = data.location.name;
@@ -40,11 +43,15 @@ const getData = async (event) => {
   weatherStatus.innerHTML = data.current.condition.text;
   temperature.innerHTML = data.current.temp_c;
 
-  // Set background image based on weather condition
+  //* Set lastLocation
+  lastLocation = { city: data.location.name, country: data.location.country };
+  //* Save lastLocation to local storage
+  saveLastLocation();
+  // *for dynamic background change according to the weather.
   setBackgroundImage(data.current.condition.text);
 };
 
-// Function to get current location
+//* Function to get current location
 const getCurrentLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -57,9 +64,9 @@ const getCurrentLocation = () => {
   }
 };
 
-// Function to get weather data by coordinates
+//* Function to get weather data by coordinates
 const getWeatherByCoordinates = async (latitude, longitude) => {
-  // Fetch details
+  //* Fetch details
   const fetchData = await fetch(
     `https://api.weatherapi.com/v1/current.json?key=2330b4cff9df477bb0a105928231102&q=${latitude},${longitude}`
   );
@@ -68,7 +75,7 @@ const getWeatherByCoordinates = async (latitude, longitude) => {
   data = orgData;
   console.log(data);
 
-  // Display the details
+  //* Display the details
   countryName.innerHTML = data.location.country;
   stateName.innerHTML = data.location.region;
   cityName.innerHTML = data.location.name;
@@ -78,52 +85,68 @@ const getWeatherByCoordinates = async (latitude, longitude) => {
   weatherStatus.innerHTML = data.current.condition.text;
   temperature.innerHTML = data.current.temp_c;
 
-  // Set background image based on weather condition
+  //* Set lastLocation
+  lastLocation = { city: data.location.name, country: data.location.country };
+  //* Save lastLocation to local storage
+  saveLastLocation();
+  //* change the background according to the location weather 
   setBackgroundImage(data.current.condition.text);
 };
 
-// Function to set background image based on weather condition
+//* for dynamic background
 const setBackgroundImage = (condition) => {
   let backgroundImage;
   switch (condition.toLowerCase()) {
-    case "clear":
-      backgroundImage = "clear.jpg";
+    case 'clear':
+      backgroundImage = 'clear.jpg';
       break;
-    case "windy":
-      backgroundImage = "windy.jpg";
+    case 'windy':
+      backgroundImage = 'windy.jpg';
       break;
-    case "sunny":
-      backgroundImage = "sunny.jpg";
+    case 'sunny':
+      backgroundImage = 'sunny.jpg';
       break;
-    case "rainy":
-      backgroundImage = "rainy.jpg";
+    case 'rainy':
+      backgroundImage = 'rainy.jpg';
       break;
-    case "cloudy":
-      backgroundImage = "cloudy.jpg";
+    case 'cloudy':
+      backgroundImage = 'cloudy.jpg';
       break;
-    case "partly cloudy":
-      backgroundImage = "partly_cloudy.jpg";
+    case 'partly cloudy':
+      backgroundImage = 'partly_cloudy.jpg';
       break;
-    case "fog":
-      backgroundImage = "fog.jpg";
+    case 'fog':
+      backgroundImage = 'fog.jpg';
       break;
-    case "snow":
-      backgroundImage = "snow.jpg";
+    case 'snow':
+      backgroundImage = 'snow.jpg';
       break;
-    case "thunderstorm":
-      backgroundImage = "thunderstorm.jpg";
+    case 'thunderstorm':
+      backgroundImage = 'thunderstorm.jpg';
       break;
     default:
-      // Default background image
-      backgroundImage = "default.jpg";
+      backgroundImage = 'default.jpg';
   }
   document.body.style.backgroundImage = `url('./assets/bgc/${backgroundImage}')`;
 };
 
-// Add event listener to the button for getting current location
+//* Load last searched location from local storage when page is loaded
+window.onload = () => {
+  lastLocation = getLastLocation();
+  if (lastLocation) {
+    inputBox.value = lastLocation.city;
+    getWeatherByCityName(lastLocation.city);
+  }
+};
+
+//* Add event listener to the button for getting current location
 locationBtn.addEventListener("click", () => {
   getCurrentLocation();
 });
 
-// Add event listener to the form for submitting city name
-document.querySelector(".searchData").addEventListener("submit", getData);
+//* Add event listener to the form for submitting city name
+document.querySelector(".searchData").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const city = inputBox.value;
+  getWeatherByCityName(city);
+});

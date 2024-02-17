@@ -11,7 +11,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #252525; */
   background-image: url('./assets/bgc/dynamic.jpg');
   background-size: 100% 100%;
 }
