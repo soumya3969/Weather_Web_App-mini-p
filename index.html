@@ -5,11 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-    <link rel="icon" type="image/x-icon" href="./Assets/icons/1-cloud.svg" />
+    <link rel="icon" type="image/x-icon" href="./assets/1-cloud.svg" />
     <!-- adding fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- adding the css file -->
     <link rel="stylesheet" href="./style.css" />
@@ -18,12 +21,24 @@
     <!-- container for holding the weather card -->
     <div class="container">
       <h1>Weather Web App</h1>
-      <div><img src="./Assets/icons/1-cloud-gradient trans.gif" alt="" class="cloud" width="50px"></div>
+      <div>
+        <img
+          src="./assets/1-cloud-gradient trans.gif"
+          alt=""
+          class="cloud"
+          width="50px"
+        />
+      </div>
 
       <!-- section for searching the weather of a city -->
       <form onsubmit="getData(event)" class="searchData">
-        <input id="inputBox" type="text" placeholder="Enter the city name" />
-        <button>Search</button>
+        <div>
+          <input id="inputBox" type="text" placeholder="Enter the city name" />
+          <button>Search</button>
+        </div>
+        <div class="loc-btn">
+          <button id="cur_loc">Current Location</button>
+        </div>
       </form>
 
       <!-- section for displaying the city weather data -->
@@ -72,7 +87,12 @@
 
           <!-- displaying the weather condition -->
           <div class="card">
-            <img width="20px" id="logoImage" src="./Assets/icons/weather2.png" alt="icon" />
+            <img
+              width="20px"
+              id="logoImage"
+              src="./assets/weather2.png"
+              alt="icon"
+            />
             <p id="weatherStatus">__</p>
           </div>
         </div>
