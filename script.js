@@ -1,4 +1,4 @@
-// JavaScript code
+// *JavaScript code
 
 let data;
 

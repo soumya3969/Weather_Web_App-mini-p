@@ -11,7 +11,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  /* background-color: #252525; */
+  background-image: url('./assets/bgc/dynamic.jpg');
   background-size: 100% 100%;
 }
 
@@ -48,8 +49,6 @@ body {
   border: transparent;
   padding: 5px 15px;
   cursor: pointer;
-  /* padding: 15px 25px; */
-  /* border: unset; */
   border-radius: 15px;
   color: #e8e8e8;
   z-index: 1;
