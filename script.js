@@ -121,6 +121,9 @@ const setBackgroundImage = (condition) => {
     case 'snow':
       backgroundImage = 'snow.jpg';
       break;
+    case 'light snow':
+      backgroundImage = 'snow.jpg';
+      break;
     case 'thunderstorm':
       backgroundImage = 'thunderstorm.jpg';
       break;
